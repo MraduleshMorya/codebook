@@ -1,0 +1,35 @@
+<title>Search</title>
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: block;">
+    
+    <hr><br>
+    <div style="top: 25px;">  </div>
+    <h2>Search Results </h2>
+    {% for users2 in user %}
+    <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+        <div class="row g-0">
+            <div class="col-md-5">
+                <img src=" {{users2.profile_pic.url}} " class="img-fluid rounded-start" alt="..."
+                    style="width: 480px; height: 480px; ">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h5 class="card-title">Username - {{users2.username}}</h5>
+                    <p class="card-text"> Name -{{users2.first_name}} {{users2.last_name}} </p>
+                    <a href="{% url 'add_friend' target_username=users2.username %}" style="text-decoration: none;">
+                    <button style="margin-right: 5px;" type="button" class="btn btn-outline-success">ADD Friend</button></a>
+                    <button style="margin-left: 5;" type="button" class="btn btn-primary">Comment </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+    
+
+
+    {% endblock content %}
+
+    

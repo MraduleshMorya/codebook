@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Codebook Home</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div style="display: block;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="display: block; z-index: 10000; position: fixed; top: 0; width: 100%; content:block; background:dodgerblue; ">
+        <div class="container-fluid" style="color:dodgerblue;">
+            <b><a class="navbar-brand" href="#">{{username}}</a></b>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'codebook_home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'user_profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Posts
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'post_image_page' %}">Photo</a></li>
+                            <li><a class="dropdown-item" href="{% url 'post_video_page' %}">Video</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Text </a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'my_posts' %}">My_Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'friends_page' %}">Friends</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signout' %}">Log_Out</a>
+                    </li>
+                    </ul>
+                    {% csrf_token %}
+                    <form class="d-flex" method="post" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="find" name="find"
+                            required>
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+            </div>
+        </div>
+    </nav>
+<hr><br><br><br>
+<div style="top: 25px;"></div>
+<div style="display: block;">
+    <br><br>
+    {% if messages %}
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}
+        style="background-color:MediumSeaGreen; color:white;">
+        {{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{%for posted_photos in posts %}
+{%if posted_photos.catagory == 'image'%}
+<div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+    <div class="row g-0">
+        <div class="col-md-5">
+            <img src=" {{posted_photos.photo.url}} " class="img-fluid rounded-start" alt="..." style="width: 480px; height: 480px; " >
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h5 class="card-title">{{posted_photos.username}}</h5>
+                <p class="card-text"> {{posted_photos.description}} </p>
+                <p class="card-text"><small class="text-muted"> {{posted_photos.created_at}} </small></p> <a href="{% url 'open_post' postid=posted_photos.postid %}" style=" text-decoration: none; ">
+                <div class=""><button style="margin-bottom: 5px; " class="btn btn-primary profile-button" type="submit">Open Post </button>
+                </div>
+                </a >
+                <a href="{% url 'like_post' target_postid=posted_photos.postid %}" style="text-decoration: none;">
+                <button style="margin-right: 5px;" type="button" class="btn btn-outline-success">Like..{{posted_photos.like_count}}</button></a>
+
+                <button style="margin-left: 5;" type="button" class="btn btn-primary">Comment..{{posted_photos.comment_count}} </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{%if posted_photos.catagory == 'video'%}
+<div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235);">
+    <div class="row g-0">
+        <div class="col-md-5">
+
+            <video src="{{posted_photos.video.url}}" width="480" height="480"  loop  controls style=" height: 480px; width: 480px; " class="img-fluid rounded-start"></video>
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h5 class="card-title">{{posted_photos.username}}</h5>
+                <p class="card-text"> {{posted_photos.description}} </p>
+                <p class="card-text"><small class="text-muted"> {{posted_photos.created_at}} </small></p>
+                <a href="{% url 'open_post' postid=posted_photos.postid %}" style=" text-decoration: none; ">
+                    <div class=""><button style="margin-bottom: 5px; " class="btn btn-primary profile-button" type="submit">Open Post
+                        </button>
+                    </div>
+                </a>
+                <a href="{% url 'like_post' target_postid=posted_photos.postid %}" style="text-decoration: none;">
+                    <button style="margin-right: 5px;" type="button" class="btn btn-outline-success">Like..{{posted_photos.like_count}}</button></a>
+                <button style="margin-left: 5;" type="button" class="btn btn-primary">Comment..{{posted_photos.comment_count}} </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endfor %}
+        <h2>Total no of available pages -- {{total_no_of_pages}}</h2>
+        <h2>Toatal no of posts Availabel are -- {{total_no_of_data}}</h2>
+        <ul class="pagination">
+            {% if posts.has_previous %}
+        <li class="page-item"><a class="page-link" href="{% url 'codebook_home' %}?page_no={{posts.prevoius_page_number}}">Previous</a></li>
+            {% endif %}
+            {% for data in total_no_of_pages_range %}
+                {% if data != current_page_no %}
+        <li class="page-item"><a class="page-link" href="{% url 'codebook_home' %}?page_no={{data}}">{{data}}</a></li>
+                {% else %}
+            <li class="page-item active"><a class="page-link" href="#">{{data}}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'codebook_home' %}?page_no={{posts.next_page_number}}">Next</a></li>
+            {% endif %}
+        </ul>
+
+    </div>
+</body>

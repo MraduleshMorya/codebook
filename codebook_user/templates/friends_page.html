@@ -1,0 +1,80 @@
+<title>Friends_page</title>
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: block;">
+
+            <hr><br><br><br>
+            <div style="top: 25px;"> </div>
+            <hr>
+            <h2>Friend List </h2>
+            {% for friend in friends %}
+            <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src=" {{friend.profile_pic.url}} " class="img-fluid rounded-start" alt="..."
+                            style="width: 480px; height: 480px; ">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Username - {{friend.username}}</h5>
+                            <p class="card-text"> Name -{{friend.first_name}} {{friend.last_name}} </p>
+                            <p class="card-text"> About - {{friend.about}} </p>
+                            <p class="card-text"> DOB - {{friend.birth_date}} </p>
+                            <a href="{% url 'un_friend' target_username=friend.username %}" style="text-decoration:none;">
+                            <button style="margin-left: 10px;" type="button" class="btn btn-outline-danger">Un-friend</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <hr>
+            <h2>Friend Request List </h2>
+            <hr>
+            {% for requests in request %}
+            
+            <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src=" {{requests.profile_pic.url}} " class="img-fluid rounded-start" alt="..."
+                            style="width: 480px; height: 480px; ">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Username - {{requests.username}}</h5>
+                            <p class="card-text"> Name -{{requests.first_name}} {{requests.last_name}} </p><a style="text-decoration: none;" href="{% url 'make_friend' target_username=requests.username %}">
+                            <button style="margin-right: 5px;" type="button" class="btn btn-outline-success">ADD Friend</button></a>
+                            <a style="text-decoration: none;" href="{% url 'reject_friend_request' target_username=requests.username %}">
+                            <button style="margin-left: 10px;" type="button" class="btn btn-outline-danger">Reject</button></a>
+                            <a style="text-decoration: none;" href="{% url 'delete_friend_request' target_username=requests.username %}">
+                            <button style="margin-left: 10px;" type="button" class="btn btn-outline-danger">Delete</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <h2> You requested to be Friends With  </h2>
+            <hr>
+            {% for requested in requested %}
+            
+            <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <img src=" {{requested.profile_pic.url}} " class="img-fluid rounded-start" alt="..."
+                            style="width: 480px; height: 480px; ">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Username - {{requested.friend_with}}</h5>
+                            <p class="card-text"> Name -{{requested.first_name}} {{requested.last_name}} </p>
+                            <a style="text-decoration: none;" href="{% url 'delete_friend_request' target_username=requested.friend_with %}">
+                                <button style="margin-left: 10px;" type="button" class="btn btn-outline-danger">Delete</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+
+{% endblock content %}

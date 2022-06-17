@@ -1,0 +1,12 @@
+<title>notifications_page</title>
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: block;">
+    </div>
+    {% for nots in nots %}
+
+    <h4> {{nots.friend_username}} placed a {{nots.operation}} on your post {{nots.postid_toshow}}</h4>
+      
+    {% endfor %}
+    {% endblock content %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>temp</title>
+</head>
+<body>
+{% for data in result %}
+<a href="{% url 'report1' username=data.username %}"><h3>{{data.username}}</h3></a>
+{{data}}
+
+<h3>{{data.password}}</h3>
+<h3>{{data.firstname}}</h3>
+<h3>{{data.postid}}</h3>
+<h3>{{data.description}}</h3>
+<h3>{{data.catagory}}</h3>
+
+<h3>----</h3>
+{%endfor%}
+</body>
+</html>

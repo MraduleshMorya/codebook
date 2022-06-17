@@ -1,0 +1,36 @@
+<title>Post Video</title>
+{% extends "base.html" %}
+
+{% block content %}
+<hr>
+<div style="display: block; background:rgb(199, 240, 145);">
+
+    <form action="{% url 'create_post' field='video' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input  required id="video" name="video" type="file" accept="video/*" />
+        {% csrf_token %}
+        <br>
+        <hr>
+        <br>
+        <div class="col-md-12"><label class="labels">Post Description</label><textarea rows="10" cols="15"
+                class="form-control" , placeholder="describe your post " , id="text" , name="text" required></textarea></div>
+        <br>
+        <div class=""><button style="display: inline;" class="btn btn-primary profile-button" type="submit">Upload
+                Post</button>
+        </div>
+        {% csrf_token %}
+    </form>
+
+</div>
+
+<div>
+    <video autoplay muted loop>
+        <source alt="not found" src="https://www.youtube.com/watch?v=WGJJIrtnfpk&t=8216s"
+            type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+</div>
+
+
+{% endblock content %}

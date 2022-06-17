@@ -1,0 +1,85 @@
+<title>edit_post</title>
+{% extends "base.html" %}
+
+{% block content %}
+<hr>
+
+<div style="display: block; background:rgb(130, 235, 230); ">
+    <div style="top: 25px;"></div>
+    {%if post.catagory == 'image'%}
+    <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+        <div class="row g-0">
+            <div class="col-md-5">
+                <img src=" {{post.photo.url}} " class="img-fluid rounded-start" alt="..."
+                    style="width: 480px; height: 480px; ">
+                    <form action="{% url 'edit_post' field='image' target_postid=post.postid %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input id="image" name="image" type="file" accept="image/*" />
+                        <div class=""><button style="display: inline;" class="btn btn-primary profile-button" type="submit">edit.image</button>
+                        </div>
+                    </form>
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <form action="{% url 'edit_post' field='text' target_postid=post.postid %}" method="post">
+                        {% csrf_token %}
+                        <br>
+                        <div class="col-md-12">
+                            <textarea rows="10" cols="15"
+                                class="form-control" , placeholder="{{post.description}}" ,value="{{post.description}}" , id="text" ,
+                                name="text">{{post.description}}</textarea></div>
+                        <br>
+                        <div class=""><button style="display: inline;" class="btn btn-primary profile-button" type="submit">edit..text</button>
+                        </div>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+    {%if post.catagory == 'video'%}
+    <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235);">
+        <div class="row g-0">
+            <div class="col-md-5">
+
+                <video src="{{post.video.url}}" width="640" height="640" loop controls
+                    style=" height: 640px; width: 640px; " class="img-fluid rounded-start"></video>
+                        <form action="{% url 'edit_post' field='video' target_postid=post.postid %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input required id="video" name="video" type="file" accept="video/*" />
+                            {% csrf_token %}
+                            <br>
+                            <div class=""><button style="display: inline;" class="btn btn-primary profile-button" type="submit">edit..video</button>
+                            </div>
+                            {% csrf_token %}
+                        </form>
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <form action="{% url 'edit_post' field='text' target_postid=post.postid %}" method="post">
+                        {% csrf_token %}
+                        <br>
+                        <div class="col-md-12">
+                            <textarea rows="10" cols="15" class="form-control" , placeholder="{{post.description}}"
+                                ,value="{{post.description}}" , id="text" , name="text">{{post.description}}</textarea>
+                        </div>
+                        <br>
+                        <div class=""><button style="display: inline;" class="btn btn-primary profile-button"
+                                type="submit">edit..text</button>
+                        </div>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,70 @@
+<title>My_Post</title>
+{% extends "base.html" %}
+
+{% block content %}
+<hr>
+    
+    <div style="display: block; background:rgb(130, 235, 230); ">
+        <div style="top: 25px;"></div>
+        {% for posts in posts %}
+        {%if posts.catagory == 'image'%}
+        <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235); ">
+            <div class="row g-0">
+                <div class="col-md-5">
+                    <img src=" {{posts.photo.url}} " class="img-fluid rounded-start" alt="..."
+                        style="width: 480px; height: 480px; ">
+                </div>
+                <div class="col-md-7">
+                    <div class="card-body">
+                        <h5 class="card-title">{{posts.username}}</h5>
+                        <p class="card-text"> {{posts.description}} </p>
+                        <p class="card-text"><small class="text-muted"> {{posts.created_at}} </small></p>
+                        <button style="margin-right: 5px;" type="button" class="btn btn-outline-success">Likes..{{posts.like_count}}</button>
+                        <button style="margin-left: 5;" type="button" class="btn btn-primary">Comments..{{posts.comment_count}} </button>
+                        <div> 
+                            <a href="{% url 'edit_post_page' target_postid=posts.postid %}">
+                                <button type="button" class="btn btn-info">Edit...</button>
+                            </a>
+                            <a href="{% url 'delete_my_post' my_postid=posts.postid %}" style="text-decoration: none;">
+                        <button type="button" class="btn btn-outline-danger">Delete</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        {% endif %}
+    
+        {%if posts.catagory == 'video'%}
+        <div class="card mb-3" style="max-width: 100%; background:rgb(130, 167, 235);">
+            <div class="row g-0">
+                <div class="col-md-5">
+    
+                    <video src="{{posts.video.url}}" width="640" height="640" loop controls
+                        style=" height: 640px; width: 640px; " class="img-fluid rounded-start"></video>
+                </div>
+                <div class="col-md-6" style="margin-left: 15px;">
+                    <div class="card-body" style="margin-top: 100px;">
+                        <h5 class="card-title">{{posts.username}}</h5>
+                        <p class="card-text"> {{posts.description}} </p>
+                        <p class="card-text"><small class="text-muted"> {{posts.created_at}} </small></p>
+                    </div>
+                    <button style="margin-right: 5px;" type="button" class="btn btn-outline-success">Likes..{{posts.like_count}}</button>
+                    <button style="margin-left: 5;" type="button" class="btn btn-primary">Comments..{{posts.comment_count}} </button>
+                    <div>
+                        <a href="{% url 'edit_post_page' target_postid=posts.postid %}">
+                            <button type="button" class="btn btn-info">Edit...</button>
+                        </a>
+                        <a href="{% url 'delete_my_post' my_postid=posts.postid %}" style="text-decoration: none;">
+                            <button type="button" class="btn btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endif %}
+    {% endfor %}
+    </div>
+
+    {% endblock content %}
