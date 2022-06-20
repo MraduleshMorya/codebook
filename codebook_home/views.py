@@ -69,14 +69,15 @@ def home(request):
 
     print("\n \n friends_list", friends_list)
     friends_list.append(request.session['username'])
-    if page_no not in cache:
+    if "data" not in cache:
         print("\n \n cahce miss ")
-        data = posts.objects.filter(username__in=friends_list)
-        print("\n \n \n data", data)
-        cache.set(page_no, data, timeout=CACHE_TTL)
+        data = posts.objects.all()
+        #data = posts.objects.filter(username__in=friends_list)
+        print("\n \n \n data", data.filter(username__in=friends_list))
+        cache.set("data", data.filter(username__in=friends_list), timeout=CACHE_TTL)
     else:
         print("\n \n cache hit ")
-        data = cache.get(page_no)
+        data = cache.get("data")
         print("data inside chache hit ",data)
     # adding pagination
     paged_data = Paginator(data, 5)

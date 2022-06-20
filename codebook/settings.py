@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -181,6 +183,10 @@ CACHES = {
     }
 }
 
+CRONJOBS = [
+    ('*/1 * * * *', 'codebook_home.cron_job.cronjob_handler'),
+    ('* * * * *', 'codebook_home.cron_job.cronjob_handler')
+]
 
 # email sending configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
