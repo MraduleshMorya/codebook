@@ -1,3 +1,5 @@
+import asyncio
+import threading
 from email import message
 import email
 from genericpath import exists
@@ -36,6 +38,7 @@ import pytz
 from django.utils import timezone, datetime_safe
 from django.db.models import Q
 from itertools import chain
+from codebook_home import threads as func
 
 # Create your views here.
 
@@ -116,18 +119,21 @@ def user_signup(request):
             request.session.set_expiry(0)
             request.session.modified = True
             print("token = ", token.key)
-            try:
-                print("User Created succesfully sending an Welcome massage through email ")
-                subject = 'Greetings from Codebook...'
-                message = f"Hello {request.POST['firstname']} {request.POST['lastname']} Welcome to Coodbook , we are glad to have you "
-                email_from = settings.EMAIL_HOST_USER
-                recipient_list = [str(request.POST['email'])]
-                send_mail(subject, message, email_from, recipient_list)
-            except:
-                print("error occured in sending the email")
-                messages.error(
-                    request, " there was some error in sending the email to reset your password please try again ")
-                return redirect(request.META['HTTP_REFERER'])
+            print("User Created succesfully sending an Welcome massage through email ")
+            threading.Thread(target=func.send_welcome_mail, kwargs={"fname":str(request.POST['firstname']),"lname":str(request.POST['lastname']),"email":str(request.POST['email'])}).start()
+            # try:
+            #     print("User Created succesfully sending an Welcome massage through email ")
+            #     subject = 'Greetings from Codebook...'
+            #     message = f"Hello {request.POST['firstname']} {request.POST['lastname']} Welcome to Coodbook , we are glad to have you "
+            #     email_from = settings.EMAIL_HOST_USER
+            #     recipient_list = [str(request.POST['email'])]
+            #     send_mail(subject, message, email_from, recipient_list)
+            # except:
+            #     print("error occured in sending the email")
+            #     # messages.error(
+            #     #     request, " there was some error in sending the welcome mail  ")
+            #     # return redirect(request.META['HTTP_REFERER'])
+            #     pass
             return redirect("user_profile")    
 
         else:
@@ -163,8 +169,8 @@ def user_signin(request):
     print("request = ", request )
     print("token = ", token.key)
     
-    user_data = User_model.objects.filter(username=input_username).all()
-    context = {"user_data":user_data}
+    # user_data = User_model.objects.filter(username=input_username).all()
+    # context = {"user_data":user_data}
     return redirect("codebook_home")
 
 

@@ -1,3 +1,4 @@
+import asyncio
 from ctypes import Union
 from pyexpat.errors import messages
 from django.http import HttpResponse
@@ -30,6 +31,8 @@ import base64
 import os
 from itertools import chain
 from django.db import connection
+from codebook_home.threads import update_cache_queue,clear_cache,send_welcome_mail
+import threading
 # Create your views here.
 
 
@@ -59,6 +62,10 @@ def create_post(request, field):
             post_obj.save()
             messages.success(
                 request, "Your image uploaded successfully  successfully")
+            #threading.Thread(target=update_cache_queue).start()
+            threading.Thread(target=clear_cache).start()
+            #asyncio.create_task(afun.update_cache_queue())
+            # asyncio.create_task(afun.clear_cache())
             return redirect(request.META['HTTP_REFERER'])
         except:
             return HttpResponse("error occorrud during post the image ")
@@ -73,6 +80,10 @@ def create_post(request, field):
             post_obj.save()
             messages.success(
                 request, "Your video uploaded successfully  successfully")
+            #threading.Thread(target=update_cache_queue).start()
+            threading.Thread(target=clear_cache).start()
+            #asyncio.create_task(afun.update_cache_queue())
+            # asyncio.create_task(afun.clear_cache())
             return redirect(request.META['HTTP_REFERER'])
         except:
             return HttpResponse("error occorrud during post the image ")
@@ -115,7 +126,10 @@ def delete_my_post(request, my_postid):
     post_obj.photo.delete(save=True)
     post_obj.video.delete(save=True)
     post_obj.delete()
-    
+    #threading.Thread(target=update_cache_queue).start()
+    # asyncio.create_task(afun.update_cache_queue())
+    # asyncio.create_task(afun.clear_cache())
+    threading.Thread(target=clear_cache).start()
     return redirect(request.META['HTTP_REFERER'])
 
 
@@ -163,7 +177,7 @@ def like_post(request, target_postid):
     print("\n \n running like_post function ")
     
     try:
-        print("\n \n  running try block of lik_post")
+        print("\n \n  running try block of like_post")
         liked_post_obj = liked_posts.objects.get(username=request.session["username"], postid=target_postid)
         messages.error(request," you have already liked this post ")
         
@@ -184,6 +198,10 @@ def like_post(request, target_postid):
         liked_post_obj2.save()
         post_obj.save()
         messages.success(request," liked post successfully ")
+        #threading.Thread(target=update_cache_queue).start()
+        threading.Thread(target=clear_cache).start()
+        # asyncio.create_task(afun.update_cache_queue())
+        # asyncio.create_task(afun.clear_cache())
         
     finally:
         print("\n \n running final block of like_post function ")
@@ -205,7 +223,11 @@ def comment(request,target_postid):
     post_obj.comment_count = post_obj.comment_count + 1
     post_obj.save()
     liked_post_obj2.save()
-    messages.success(request, " commented successfully successfully ")
+    messages.success(request, " commented successfully ")
+    #threading.Thread(target=update_cache_queue).start()
+    threading.Thread(target=clear_cache).start()
+    # asyncio.create_task(afun.update_cache_queue())
+    # asyncio.create_task(afun.clear_cache())
     return redirect(request.META['HTTP_REFERER'])
     
     
@@ -237,6 +259,10 @@ def edit_post(request, field, target_postid):
         post_obj.description = request.POST["text"]
         
     post_obj.save()
+    threading.Thread(target=clear_cache).start()
+    #threading.Thread(target=update_cache_queue).start()
+    # asyncio.create_task(afun.update_cache_queue())
+    # asyncio.create_task(afun.clear_cache())
     return redirect(request.META["HTTP_REFERER"])
 
 

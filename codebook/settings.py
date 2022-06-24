@@ -184,8 +184,8 @@ CACHES = {
 }
 
 CRONJOBS = [
-    ('*/1 * * * *', 'codebook_home.cron_job.cronjob_handler'),
-    ('* * * * *', 'codebook_home.cron_job.cronjob_handler')
+    ('*/1 * * * *', 'codebook_home.cron_job.cronjob_handler_clear_cache'),
+    ('* * * * *', 'codebook_home.cron_job.cronjob_handler_clear_cache'),
 ]
 
 # email sending configuration
