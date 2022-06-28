@@ -33,7 +33,15 @@ from itertools import chain
 from django.db import connection
 from codebook_home.threads import update_cache_queue,clear_cache,send_welcome_mail
 import threading
+from kafka import KafkaProducer
+import base64
 # Create your views here.
+
+def _encode(data):
+    ascii_encoded = data.encode("ascii")
+    b64_encoded = base64.b64encode(ascii_encoded)
+    data = b64_encoded.decode("ascii")
+    return data
 
 
 def post_image_page(request):
@@ -220,6 +228,16 @@ def comment(request,target_postid):
                                      friend_username=request.session["username"], postid_toshow=post_obj.postid, operation="Comment")
 
     notification_obj.save()
+    # data = {
+    #     "postid":post_obj,
+    #     "author_username":post_obj.username,
+    #     "friend_username":request.session["username"],
+    #     "postid_toshow":post_obj.postid,
+    #     "operation":"Comment"
+    # }
+    # print("\n producing the data .............")
+    # producer_obj = KafkaProducer("notification",bootstrap_server="localhost:9092",group_id="a",value_serializer=_encode)
+    # producer_obj.send("notification",value=data)
     post_obj.comment_count = post_obj.comment_count + 1
     post_obj.save()
     liked_post_obj2.save()
