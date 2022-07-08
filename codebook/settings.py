@@ -15,7 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'codebook.settings')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -26,13 +26,14 @@ SECRET_KEY = 'django-insecure-9%1%1xhb^3uy@2^k-^eoul#mgbtd3j8ggc*_-1x5j$z=#d0g*t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.50.67","localhost","127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
 
+    'channels',
     'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'codebook_user',
     'codebook_home',
     'codebook_posts',
+    'asgi_channel_test',
     
 ]
 
@@ -86,7 +88,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'codebook.wsgi.application'
+ASGI_APPLICATION = 'codebook.asgi.application'
+# WSGI_APPLICATION = 'codebook.wsgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database

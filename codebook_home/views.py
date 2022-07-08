@@ -80,6 +80,7 @@ def home(request):
     else:
         print("\n \n cache hit ")
         data = cache.get("data")
+        data = data.filter(username__in=friends_list)
         print("data inside chache hit ",data)
         #threading.Thread(target=clear_cache).start()
     # adding pagination

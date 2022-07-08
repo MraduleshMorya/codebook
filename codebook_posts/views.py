@@ -38,7 +38,7 @@ import base64
 # Create your views here.
 
 def _encode(data):
-    ascii_encoded = data.encode("ascii")
+    ascii_encoded = str(data).encode("ascii")
     b64_encoded = base64.b64encode(ascii_encoded)
     data = b64_encoded.decode("ascii")
     return data
@@ -221,23 +221,33 @@ def comment(request,target_postid):
         return redirect("index")
     print("\n \n running comment function  ")
     given_comment = request.POST["given_comment"]
+
     post_obj = posts.objects.get(postid=target_postid)
+
     liked_post_obj2 = post_commnets(
     postid=post_obj, username=request.session["username"],comment=given_comment)
-    notification_obj = notifications(postid=post_obj, author_username=post_obj.username,
-                                     friend_username=request.session["username"], postid_toshow=post_obj.postid, operation="Comment")
+    ## old code to send notification
+    # notification_obj = notifications(postid=post_obj, author_username=post_obj.username,
+    #                                  friend_username=request.session["username"], postid_toshow=post_obj.postid, operation="Comment")
+    #
+    # notification_obj.save()
 
-    notification_obj.save()
-    # data = {
-    #     "postid":post_obj,
-    #     "author_username":post_obj.username,
-    #     "friend_username":request.session["username"],
-    #     "postid_toshow":post_obj.postid,
-    #     "operation":"Comment"
-    # }
-    # print("\n producing the data .............")
-    # producer_obj = KafkaProducer("notification",bootstrap_server="localhost:9092",group_id="a",value_serializer=_encode)
-    # producer_obj.send("notification",value=data)
+    ## new code to send notification through producer
+    data = {
+        "postid":int(target_postid),
+        "author_username":post_obj.username,
+        "friend_username":request.session["username"],
+        "postid_toshow":post_obj.postid,
+        "operation":"Comment"
+    }
+    print(data)
+    print("\n producing the data .............")
+    producer_obj = KafkaProducer(bootstrap_servers=['localhost:9092'])
+    res_bytes = json.dumps(data).encode('utf-8')
+    print(type(res_bytes))
+    print(res_bytes)
+    producer_obj.send("notification",res_bytes)
+
     post_obj.comment_count = post_obj.comment_count + 1
     post_obj.save()
     liked_post_obj2.save()

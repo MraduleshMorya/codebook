@@ -49,3 +49,5 @@ def send_welcome_mail(fname, lname, email):
         # return redirect(request.META['HTTP_REFERER'])
         pass
 
+
+

@@ -5,6 +5,7 @@ from datetime import *
 # from pytz import timezone
 import pytz
 from  django.utils import timezone,datetime_safe
+import django
 # Create your models here.
 
 IST = pytz.timezone('Asia/Kolkata')
@@ -18,7 +19,7 @@ class posts(models.Model):
     video = models.FileField(
         upload_to='posted_videos/', null=True, blank=True)
     description = models.TextField(max_length=1500)
-    created_at = models.DateTimeField(default=timezone.now())
+    created_at = models.DateTimeField(default=django.utils.timezone.now)
     catagory = models.CharField(default="image", max_length=6)
     like_count = models.IntegerField(default=0)
     comment_count =models.IntegerField(default=0)

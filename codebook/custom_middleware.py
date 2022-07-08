@@ -22,13 +22,14 @@ class save_api_detail_middleare:
             # print("request.headers == ", request.headers)
             # print("request.path == ", request.path_info)
             # print("request.session[username] ",request.session["username"])
+
+            # commenting this one to test app without storing logs
             obj = invoke_detail(
                 username=request.session["username"], invoked_api=request.path_info, invokation_method=request.method, request_headers=json.dump(request.headers), )
-            print("obj == ")
             obj.save(using='mongo')
             print("data saved successfully")
         except:
             #print("\n caught exception in custom middleware ")
             pass
-        print("returning response ")
+        # print("returning response ")
         return response

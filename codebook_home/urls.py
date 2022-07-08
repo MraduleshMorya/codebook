@@ -5,7 +5,8 @@ from codebook_user import views as user_views
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken import views as rest_views
-from codebook_home import views as home_views 
+from codebook_home import views as home_views
+from codebook.kafka_consumer import consumer_thread
 
 
 urlpatterns = [
@@ -13,6 +14,7 @@ urlpatterns = [
     path("get_data/<str:username>/", home_views.get_api_invokedata, name="get_data"),
     path("report/", home_views.user_report, name="report"),
     path("report/<str:username>/", home_views.user_report1, name="report1"),
+    path("kafka_consumer/",consumer_thread, name="kafka_consumer")
 
 ]
 urlpatterns += static(settings.MEDIA_URL,

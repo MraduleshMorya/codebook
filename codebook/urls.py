@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from codebook_user import urls as codebook_user_urls
-
+from asgi_channel_test import urls as asgiurls
 from codebook_home import urls as codebook_home_urls
 from codebook_posts import urls as codebook_posts_urls
 import codebook_user, codebook_home, codebook_posts
@@ -27,4 +27,5 @@ urlpatterns = [
     path("",include(codebook_user_urls)),
     path("", include(codebook_home_urls)),
     path("", include(codebook_posts_urls)),
+    path("chat/",include(asgiurls)),
 ]

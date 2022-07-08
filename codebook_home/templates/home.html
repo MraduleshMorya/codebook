@@ -19,7 +19,7 @@
     <div style="display: block;">
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="display: block; z-index: 10000; position: fixed; top: 0; width: 100%; content:block; background:dodgerblue; ">
         <div class="container-fluid" style="color:dodgerblue;">
-            <b><a class="navbar-brand" href="#">{{username}}</a></b>
+            <b><a class="navbar-brand" href="#" style=" text-decoration: underline; ">{{username}}</a></b>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -52,6 +52,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'friends_page' %}">Friends</a>
                     </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{% url 'notification_page' %}">Notifications</a>
+                        </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'signout' %}">Log_Out</a>
                     </li>
@@ -88,7 +91,7 @@
         </div>
         <div class="col-md-7">
             <div class="card-body">
-                <h5 class="card-title">{{posted_photos.username}}</h5>
+                <h5 class="card-title" style="text-decoration: underline;">{{posted_photos.username}}</h5>
                 <p class="card-text"> {{posted_photos.description}} </p>
                 <p class="card-text"><small class="text-muted"> {{posted_photos.created_at}} </small></p> <a href="{% url 'open_post' postid=posted_photos.postid %}" style=" text-decoration: none; ">
                 <div class=""><button style="margin-bottom: 5px; " class="btn btn-primary profile-button" type="submit">Open Post </button>

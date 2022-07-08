@@ -52,20 +52,28 @@ def save_api_detail_middleare(get_response):
     def middleware(request):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
-        start = time.time()
-        print("code is exucting before the api is invoked ")
+
+
+        # commenting this one to test app without storing logs
+        # start = time.time()
+        # print("code is exucting before the api is invoked ")
         response = get_response(request)
         try:
-            # print("\n entered custome middleware to store data  ")
+            pass
+             # print("\n entered custome middleware to store data  ")
             # print("request.method == ", request.method)
             # #print("request.headers == ", request.headers)
             # print("request.path == ", request.path_info)
             # print("request.session[username] ", request.session["username"])
-            obj = invoke_detail(
-                username=request.session["username"], invoked_api=request.path_info, invokation_method=request.method, request_headers=dict(request.headers))
-            # print("obj == ",obj)
-            obj.save(using='mongo')
-            print("data saved successfully")
+
+            # commenting this one to test app without storing logs
+            # obj = invoke_detail(
+            #     username=request.session["username"], invoked_api=request.path_info, invokation_method=request.method, request_headers=dict(request.headers))
+            # # print("obj == ",obj)
+            # obj.save(using='mongo')
+            # print("data saved successfully")
+
+
             # except:
             #     print("\n caught exception in custom middleware ")
             #     pass
@@ -84,8 +92,8 @@ def save_api_detail_middleare(get_response):
         # Code to be executed for each request/response after
         # the view is called.
         # print("execution completed of middleware ")
-        end = time.time()
-        print("took this much time --", end - start)
+        # end = time.time()
+        # print("took this much time --", end - start)
         return response
 
     return middleware
