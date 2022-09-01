@@ -14,7 +14,8 @@ urlpatterns = [
     path("get_data/<str:username>/", home_views.get_api_invokedata, name="get_data"),
     path("report/", home_views.user_report, name="report"),
     path("report/<str:username>/", home_views.user_report1, name="report1"),
-    path("kafka_consumer/",consumer_thread, name="kafka_consumer")
+    path("kafka_consumer/",consumer_thread, name="kafka_consumer"),
+    path("test/",home_views.test,name="test")
 
 ]
 urlpatterns += static(settings.MEDIA_URL,

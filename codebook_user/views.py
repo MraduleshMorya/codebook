@@ -179,7 +179,7 @@ def user_profile(request):
     print("\n  user profile function  ==")
     if "username" not in request.session:
         return redirect("index")
-    print("running user_prifile funtion ")
+    print("running user_profile funtion ")
     user_data = User_model.objects.filter(username=request.session["username"]).all()
     context = {"user_data": user_data,
                "username": request.session['username']}

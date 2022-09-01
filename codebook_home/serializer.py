@@ -1,4 +1,3 @@
-from typing_extensions import Required
 from rest_framework import serializers
 from django.db import models
 from setuptools import Require

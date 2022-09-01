@@ -1,7 +1,6 @@
 import email
 from email.policy import default
 from pyexpat import model
-from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import User
 
