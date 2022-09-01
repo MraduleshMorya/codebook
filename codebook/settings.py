@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'codebook_home.custom_middleware.save_api_detail_middleare',
+    'codebook_home.custom_middleware.check_to_many_attempts',
 ]
 
 REST_FRAMEWORK = {

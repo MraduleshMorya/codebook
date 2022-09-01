@@ -57,6 +57,7 @@ def start_localhost():
         time.sleep(7)
         log_file.write(f"local host log -- {temp}")
         #threading.Thread(target=kafkaconsumer_notification_sender,name="notification",daemon=True).start()
+        print("local host started successfully :----")
         return True
 
 

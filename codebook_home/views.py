@@ -1,6 +1,13 @@
 from audioop import reverse
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK
+)
+from rest_framework.decorators import api_view, renderer_classes
+import time
 from codebook_posts.models import posts, notifications
 from codebook_user.models import friends2, liked_posts, post_commnets
 from django.db.models import Q
@@ -16,6 +23,7 @@ from django.conf import settings
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 import threading
 from codebook_home.threads import clear_cache
+from rest_framework.response import Response
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
@@ -58,7 +66,8 @@ def home(request):
     # print("request.META.get('REMOTE_ADDR')",
     #       request.META.get('HTTP_X_FORWARDED_FOR'))
     #
-    # print(" printing request ==", request)
+    print(" printing request ==", request)
+    print("\n \n :----",request.META)
     print("page no == ", page_no)
     if "username" not in request.session:
         return redirect("index")
@@ -191,3 +200,33 @@ def user_report1(request, username):
                            "requested": requested, "liked_post_ids": user_liked_post_ids,
                            "comments": user_post_comments, "notifications": user_notification,
                            "l_c_posts": liked_post_obj})
+
+
+
+def test(request):
+    start = time.time()
+    #print(request.META)
+    # temp2 = request.META
+    # #print(temp2)
+    # #print(temp2["REMOTE_ADDR"]))
+    # ip = temp2["REMOTE_ADDR"]
+    # print(ip)
+    # if cache.get(f"{ip}+1") == None:
+    #     print("if")
+    #     temp = cache.add(f"{ip}+1",1)
+    #     #cache.add(f"{ip}", 1)
+    # else :
+    #     print("else")
+    #     temp = cache.get(f"{ip}+1")
+    #     print("value :-",temp)
+    #     temp = temp + 1
+    #     cache.set(f"{ip}+1",temp)
+    #     if temp > 10:
+    #         print(start - time.time())
+    #         return JsonResponse({"status": 400,"value":temp})
+
+    print(start - time.time())
+    return JsonResponse({"status":200})
+
+def check(request):
+    pass

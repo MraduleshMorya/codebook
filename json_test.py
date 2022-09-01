@@ -1,10 +1,11 @@
 import json
-with open("/home/mmorya/cache_queue.json", "w") as file:
-    data = {
-        "cache_changed":False
-    }
-    print(type(json.dumps(data)))
-    file.write(json.dumps(data))
+import os 
+#with open("/home/mmorya/cache_queue.json", "w") as file:
+#    data = {
+#        "cache_changed":False
+#    }
+#    print(type(json.dumps(data)))
+#    file.write(json.dumps(data))
 
 
 # with open("/home/mmorya/cache_queue.json", "r+") as file:
@@ -55,3 +56,12 @@ import threading
 
 # with open("/home/mmorya/custom_log_files/stopserver_logs.txt", "a") as log_file:
 #     log_file.write("dfghdasgfhjhjgdashshbcjdgasvyvfjctqgewaDSyfugasdhjgfhXZJbcghcdzjsgfcbnXVZcxvcfdgsvXZcgZxhj")
+
+
+print("os.environ",os.environ)
+for data in os.environ:
+	print(data)
+	
+os.environ["stage"] = "temproary ubuntu"
+print("os.environ['stage']",os.environ["stage"])
+
